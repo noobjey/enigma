@@ -7,9 +7,14 @@
 #write the decrypted message to decrypt.txt
 
 class Runner
-attr_reader :message
+attr_reader :message, :output
 
-  def encrypt message
+  def encrypt message, output
     @message = message
+    @output = output
+
+    output_file = File.new output, 'w+'
+    output_file << '3'
+    output_file.close
   end
 end
