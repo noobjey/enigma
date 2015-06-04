@@ -9,7 +9,7 @@ class Decryptor
 
   def date_to date
     if date.is_a? Date
-      date.strftime("%d%m%y")
+      date.strftime("%d%m%Y")
     else
       date
     end

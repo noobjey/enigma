@@ -8,7 +8,7 @@ class Encryptor
   end
 
   def date_to date
-    date.strftime("%d%m%y")
+    date.strftime("%d%m%Y")
   end
 
   def square date
@@ -35,6 +35,8 @@ class Encryptor
     calculate_key_offset(key)
 
     calculate_total_offset
+
+
 
     encrypted_message = ''
     message.chars.each_with_index do |character, index|
@@ -76,6 +78,7 @@ class Encryptor
       @key_offsets.store(k, key.to_s.slice(index, 2).to_i)
       index += 1
     end
+
   end
 
   def calculate_date_offset(date)

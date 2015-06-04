@@ -36,7 +36,6 @@ class Runner
   def decrypt
     decryptor = Decryptor.new
     decrypted_message = decryptor.decrypt @date, @key, @message
-
     write_output(decrypted_message, @output_filename)
     puts confirmation_message
   end
