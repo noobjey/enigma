@@ -1,8 +1,10 @@
-require_relative 'encrypt'
-require_relative 'decrypt'
+require_relative 'encryptor'
+require_relative 'decryptor'
 require 'date'
 
 class Runner
+  attr_reader :date
+
   def initialize input_filename = '', output_filename = '', key = 41521, date = Date.today
     @input_filename = input_filename
     @output_filename = output_filename
@@ -22,19 +24,20 @@ class Runner
   end
 
   def encrypt
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     encrypted_message = encryptor.encrypt @date, @key, @message
 
     write_output(encrypted_message, @output_filename)
-    confirmation_message
+
+    puts confirmation_message
   end
 
   def decrypt
-    decryptor = Decrypt.new
+    decryptor = Decryptor.new
     decrypted_message = decryptor.decrypt @date, @key, @message
 
     write_output(decrypted_message, @output_filename)
-    confirmation_message
+    puts confirmation_message
   end
 
   def write_output(encrypted_message, output)
@@ -45,6 +48,12 @@ class Runner
 
 
   def confirmation_message
-    "Created '#{@output_filename}' with the key #{@key} and date #{@date.strftime("%d%m%Y")}"
+    if @date.is_a? Date
+      date = @date.strftime("%d%m%Y")
+    else
+      date = @date
+    end
+
+    "Created '#{@output_filename}' with the key #{@key} and date #{date}"
   end
 end

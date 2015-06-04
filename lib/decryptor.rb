@@ -8,7 +8,11 @@ class Decryptor
   end
 
   def date_to date
-    date.strftime("%d%m%y")
+    if date.is_a? Date
+      date.strftime("%d%m%y")
+    else
+      date
+    end
   end
 
   def square date

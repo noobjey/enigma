@@ -6,7 +6,7 @@ class RunnerTest < Minitest::Test
 
   def test_runner_reads_input
     message_file = 'message.txt'
-    output_file = 'output.txt'
+    output_file = 'encrypted.txt'
     date = Date.new(2015, 1, 1)
     key = 41521
 
@@ -24,7 +24,7 @@ class RunnerTest < Minitest::Test
   def test_runner_outputs_to_file
     # skip
     message_file = 'message.txt'
-    output_file = 'output.txt'
+    output_file = 'encrypted.txt'
     date = Date.new(2015, 1, 1)
     key = 41521
 
@@ -46,7 +46,7 @@ class RunnerTest < Minitest::Test
   def test_runner_encrypts_one_character_message
     # skip
     message_file = 'message.txt'
-    output_file = 'output.txt'
+    output_file = 'encrypted.txt'
     date = Date.new(2015, 1, 1)
     key = 41521
 
@@ -68,7 +68,7 @@ class RunnerTest < Minitest::Test
   def test_runner_encrypts_multi_character_message
     # skip
     message_file = 'message.txt'
-    output_file = 'output.txt'
+    output_file = 'encrypted.txt'
     date = Date.new(2015, 1, 1)
     key = 41521
 
@@ -87,19 +87,38 @@ class RunnerTest < Minitest::Test
     assert_equal 'fop0fr', result
   end
 
-  def test_runner_returns_what_it_did
+  def test_runner_returns_what_it_did_for_decrypt
     message_file = 'message.txt'
-    output_file = 'output.txt'
-    date = Date.new(2015, 1, 1)
+    output_file = 'decrypted.txt'
+    date = '01012015'
     key = 41521
-    expected = "Created 'output.txt' with the key 41521 and date 01012015"
+    expected = "Created 'decrypted.txt' with the key 41521 and date 01012015"
 
     input_file = File.open message_file, 'w+'
     input_file.write 'a aaaa'
     input_file.close
 
     runner = Runner.new message_file, output_file, key, date
-    runner.encrypt
+    runner.decrypt
+
+    result = runner.confirmation_message
+
+    assert_equal expected, result
+  end
+
+  def test_runner_returns_what_it_did_for_encrypt
+    message_file = 'message.txt'
+    output_file = 'encrypted.txt'
+    date = Date.new(2015, 1, 1)
+    key = 41521
+    expected = "Created 'encrypted.txt' with the key 41521 and date 01012015"
+
+    input_file = File.open message_file, 'w+'
+    input_file.write 'a aaaa'
+    input_file.close
+
+    runner = Runner.new message_file, output_file, key, date
+    runner.decrypt
 
     result = runner.confirmation_message
 
@@ -109,7 +128,7 @@ class RunnerTest < Minitest::Test
   def test_runner_decrypts_one_character_message
     # skip
     message_file = 'message.txt'
-    output_file = 'output.txt'
+    output_file = 'decrypted.txt'
     date = Date.new(2015, 1, 1)
     key = 41521
 
@@ -131,7 +150,7 @@ class RunnerTest < Minitest::Test
   def test_runner_encrypts_multi_character_message
     # skip
     message_file = 'message.txt'
-    output_file = 'output.txt'
+    output_file = 'decrypted.txt'
     date = Date.new(2015, 1, 1)
     key = 41521
 
