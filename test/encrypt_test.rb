@@ -58,6 +58,67 @@ class EncryptTest < Minitest::Test
     assert_equal expected, result
   end
 
+  def test_encrypt_adds_key_and_date_offsets
+    encryptor = Encrypt.new
+    date      = Date.new(2015, 1, 1)
+    key       = 41521
+    expected  = { a: 44, b: 17, c: 54, d: 26 }
+
+    encryptor.encrypt date, key
+    result = encryptor.total_offsets
+
+    assert_equal expected, result
+  end
+
+  def test_encrypt_rotates_using_
+    encryptor = Encrypt.new
+    expected  = 'y'
+    character = 't'
+    offset = 5
+
+    # encryptor.encrypt date, key
+    result = encryptor.rotate character, offset
+
+    assert_equal expected, result
+  end
+
+  def test_encrypt_rotates_when_small_offset
+    encryptor = Encrypt.new
+    expected  = 'y'
+    character = 'a'
+    offset = 63
+
+    result = encryptor.rotate character, offset
+
+
+    assert_equal expected, result
+  end
+
+  def test_encrypt_uses_offset
+    encryptor = Encrypt.new
+    date      = Date.new(2015, 1, 1)
+    key       = 41521
+    message = 'aaaa'
+    expected  = 'frp0'
+
+    result = encryptor.encrypt date, key, message
+
+
+    assert_equal expected, result
+  end
+
+  def test_encrypt_reuses_offsets_when_more_than_four
+    encryptor = Encrypt.new
+    date      = Date.new(2015, 1, 1)
+    key       = 41521
+    message = 'aaaaaaaaa'
+    expected  = 'frp0frp0f'
+
+    result = encryptor.encrypt date, key, message
+
+
+    assert_equal expected, result
+  end
   #don't know how to test this way im doing it gives false positives
   # def test_encrypt_date_key_defaults_to_today
   #   encryptor = Encrypt.new
