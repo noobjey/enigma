@@ -119,6 +119,19 @@ class EncryptTest < Minitest::Test
 
     assert_equal expected, result
   end
+
+  def test_encrypt_keeps_non_encryptable_characters
+    encryptor = Encrypt.new
+    date      = Date.new(2015, 1, 1)
+    key       = 41521
+    message = 'aaaa aaaa'
+    expected  = 'frp0 rp0f'
+
+    result = encryptor.encrypt date, key, message
+
+
+    assert_equal expected, result
+  end
   #don't know how to test this way im doing it gives false positives
   # def test_encrypt_date_key_defaults_to_today
   #   encryptor = Encrypt.new

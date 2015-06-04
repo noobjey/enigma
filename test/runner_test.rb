@@ -7,52 +7,102 @@ class RunnerTest < Minitest::Test
   def test_runner_reads_input
     message_file = 'message.txt'
     output_file = 'output.txt'
+    date = Date.new(2015, 1, 1)
+    key = 41521
 
-    runner = Runner.new
-    runner.encrypt message_file, output_file
+    input_file = File.open message_file, 'w+'
+    input_file << 'a'
+    input_file.close
 
-    result = runner.message
-    assert_equal message_file, result
+    runner = Runner.new message_file, output_file, date, key
 
-    result = runner.output
-    assert_equal output_file, result
+    result = runner.read_message message_file
+    assert_equal 'a', result.strip
+
   end
 
   def test_runner_outputs_to_file
+    # skip
     message_file = 'message.txt'
     output_file = 'output.txt'
+    date = Date.new(2015, 1, 1)
+    key = 41521
 
-    runner = Runner.new
-    runner.encrypt message_file, output_file
+    input_file = File.open message_file, 'w+'
+    input_file << 'a'
+    input_file.close
 
-    result = runner.output
-    assert_equal output_file, result
+    runner = Runner.new message_file, output_file, key, date
+    runner.encrypt
 
     output = File.open output_file, 'r'
 
-    # cant get readable to work
-    # assert output.readable?
-    assert output.size > 0
+    assert_equal 'f', output.readchar
     output.close
   end
 
+
+
   def test_runner_encrypts_one_character_message
+    # skip
     message_file = 'message.txt'
     output_file = 'output.txt'
+    date = Date.new(2015, 1, 1)
+    key = 41521
 
     input_file = File.open message_file, 'w+'
-    input_file << 't'
+    input_file << 'a'
     input_file.close
 
-    runner = Runner.new
-    runner.encrypt message_file, output_file
+    runner = Runner.new message_file, output_file, key, date
+    runner.encrypt
 
     output_file = File.open output_file, 'r'
 
     result = output_file.readlines[0]
     output_file.close
 
-    assert_equal '3', result
+    assert_equal 'f', result
   end
 
+  def test_runner_encrypts_multi_character_message
+    # skip
+    message_file = 'message.txt'
+    output_file = 'output.txt'
+    date = Date.new(2015, 1, 1)
+    key = 41521
+
+    input_file = File.open message_file, 'w+'
+    input_file.write 'a aaaa'
+    input_file.close
+
+    runner = Runner.new message_file, output_file, key, date
+    runner.encrypt
+
+    output_file = File.open output_file, 'r'
+
+    result = output_file.readlines[0]
+    output_file.close
+
+    assert_equal 'f p0fr', result
+  end
+
+  def test_runner_returns_what_it_did
+    message_file = 'message.txt'
+    output_file = 'output.txt'
+    date = Date.new(2015, 1, 1)
+    key = 41521
+    expected = "Created 'output.txt' with the key 41521 and date 01012015"
+
+    input_file = File.open message_file, 'w+'
+    input_file.write 'a aaaa'
+    input_file.close
+
+    runner = Runner.new message_file, output_file, key, date
+    runner.encrypt
+
+    result = runner.confirmation_message
+
+    assert_equal expected, result
+  end
 end
