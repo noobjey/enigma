@@ -1,11 +1,11 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'date'
-require './lib/encrypt'
+require './lib/encryptor'
 
-class EncryptTest < Minitest::Test
+class EncryptorTest < Minitest::Test
   def test_encrypt_converts_date_to_ddmmyy
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     today     = Date.today
     expected  = today.strftime("%d%m%y")
 
@@ -15,7 +15,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_encrypt_squares_date
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     date      = '010115'
     expected  = 102313225
 
@@ -25,7 +25,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_encrypt_pulls_date_offset
-    encryptor   = Encrypt.new
+    encryptor   = Encryptor.new
     date_offset = 102313225
     expected    = '3225'
 
@@ -35,7 +35,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_encrypt_has_date_offset
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     date      = Date.new(2015, 1, 1)
 
     expected = { a: 3, b: 2, c: 2, d: 5 }
@@ -47,7 +47,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_encrypt_has_key_offset
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     date      = Date.today
     key       = 41521
     expected  = { a: 41, b: 15, c: 52, d: 21 }
@@ -59,7 +59,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_encrypt_adds_key_and_date_offsets
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     date      = Date.new(2015, 1, 1)
     key       = 41521
     expected  = { a: 44, b: 17, c: 54, d: 26 }
@@ -71,7 +71,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_encrypt_rotates_when_small_offset
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     expected  = 'y'
     character = 't'
     offset = 5
@@ -83,7 +83,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_encrypt_rotates_when_large_offset
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     expected  = 'y'
     character = 'a'
     offset = 63
@@ -95,7 +95,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_encrypt_uses_offset
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     date      = Date.new(2015, 1, 1)
     key       = 41521
     message = 'aaaa'
@@ -108,7 +108,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_encrypt_reuses_offsets_when_more_than_four
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     date      = Date.new(2015, 1, 1)
     key       = 41521
     message = 'aaaaaaaaa'
@@ -121,7 +121,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_encrypt_keeps_non_encryptable_characters
-    encryptor = Encrypt.new
+    encryptor = Encryptor.new
     date      = Date.new(2015, 1, 1)
     key       = 41521
     message = 'aaaa!aaaa'
