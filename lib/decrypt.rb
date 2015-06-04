@@ -8,4 +8,4 @@ date = ARGV[3]
 
 runner = Runner.new input_file, output_file, date, key
 
-runner.decrypt
+puts runner.decrypt

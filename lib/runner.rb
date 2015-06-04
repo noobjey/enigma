@@ -15,37 +15,20 @@ class Runner
   end
 
   def read_message file_name
-    file = File.open file_name, 'r'
-    message = ''
-    file.each_char do |char|
-      message << char
-    end
-    file.close
-    @message = message
+    @message = File.read file_name
   end
 
   def encrypt
-    encryptor = Encryptor.new
-    encrypted_message = encryptor.encrypt @date, @key, @message
-
-    write_output(encrypted_message, @output_filename)
-
-    puts confirmation_message
+    File.write @output_filename,
+               Encryptor.new.encrypt(@date, @key, @message)
+    confirmation_message
   end
 
   def decrypt
-    decryptor = Decryptor.new
-    decrypted_message = decryptor.decrypt @date, @key, @message
-    write_output(decrypted_message, @output_filename)
-    puts confirmation_message
+    File.write @output_filename,
+               Decryptor.new.decrypt(@date, @key, @message)
+    confirmation_message
   end
-
-  def write_output(encrypted_message, output)
-    output_file = File.new output, 'w+'
-    output_file << encrypted_message
-    output_file.close
-  end
-
 
   def confirmation_message
     if @date.is_a? Date

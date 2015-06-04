@@ -5,4 +5,4 @@ output_file = ARGV[1]
 
 runner = Runner.new input_file, output_file
 
-runner.encrypt
+puts runner.encrypt

@@ -55,18 +55,7 @@ class Decryptor
   end
 
   def offset_key_to_use(index)
-    key_value = index % 4
-
-    if key_value == 0
-      key = :a
-    elsif key_value == 1
-      key = :b
-    elsif key_value == 2
-      key = :c
-    else
-      key = :d
-    end
-    key
+    [:a, :b, :c, :d][index % 4]
   end
 
   def calculate_total_offset

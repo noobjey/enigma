@@ -117,10 +117,7 @@ class RunnerTest < Minitest::Test
     input_file.close
 
     runner = Runner.new message_file, output_file, date, key
-    runner.decrypt
-
-    result = runner.confirmation_message
-
+    result = runner.decrypt
     assert_equal expected, result
   end
 
