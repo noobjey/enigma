@@ -1,4 +1,5 @@
 require_relative 'encrypt'
+require_relative 'decrypt'
 require 'date'
 
 class Runner
@@ -7,7 +8,7 @@ class Runner
     @output_filename = output_filename
     @date = date
     @key = key
-    @message = ''
+    @message = read_message @input_filename
   end
 
   def read_message file_name
@@ -21,11 +22,18 @@ class Runner
   end
 
   def encrypt
-    @message = read_message @input_filename
     encryptor = Encrypt.new
     encrypted_message = encryptor.encrypt @date, @key, @message
 
     write_output(encrypted_message, @output_filename)
+    confirmation_message
+  end
+
+  def decrypt
+    decryptor = Decrypt.new
+    decrypted_message = decryptor.decrypt @date, @key, @message
+
+    write_output(decrypted_message, @output_filename)
     confirmation_message
   end
 

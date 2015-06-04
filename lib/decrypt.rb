@@ -1,4 +1,4 @@
-class Encrypt
+class Decrypt
   attr_reader :date_offsets, :key_offsets, :total_offsets
 
   def initialize
@@ -21,7 +21,7 @@ class Encrypt
   end
 
   def rotate character, offset
-    character_map = 'abcdefghijklmnopqrstuvwxyz0123456789 .,'.chars
+    character_map = 'abcdefghijklmnopqrstuvwxyz0123456789 .,'.chars.reverse!
 
     start_position = character_map.find_index character
 
@@ -29,25 +29,25 @@ class Encrypt
     character_map[the_rotate]
   end
 
-  def encrypt(date = Date.new(2015, 1, 1), key = 41521, message = '')
+  def decrypt(date = Date.new(2015, 1, 1), key = 41521, message = '')
     calculate_date_offset(date)
 
     calculate_key_offset(key)
 
     calculate_total_offset
 
-    encrypted_message = ''
+    decrypted_message = ''
     message.chars.each_with_index do |character, index|
-      if encryptable_character character
+      if decryptable_character character
         key = offset_key_to_use(index)
 
-        encrypted_character = rotate character, @total_offsets[key].to_i
-        encrypted_message << encrypted_character
+        decrypted_character = rotate character, @total_offsets[key].to_i
+        decrypted_message << decrypted_character
       else
-        encrypted_message << character
+        decrypted_message << character
       end
     end
-    encrypted_message
+    decrypted_message
   end
 
   def offset_key_to_use(index)
@@ -89,8 +89,7 @@ class Encrypt
     end
   end
 
-  def encryptable_character(char)
+  def decryptable_character(char)
     'abcdefghijklmnopqrstuvwxyz0123456789 .,'.include? char
   end
 end
-

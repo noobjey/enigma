@@ -70,7 +70,7 @@ class EncryptTest < Minitest::Test
     assert_equal expected, result
   end
 
-  def test_encrypt_rotates_using_
+  def test_encrypt_rotates_when_small_offset
     encryptor = Encrypt.new
     expected  = 'y'
     character = 't'
@@ -82,7 +82,7 @@ class EncryptTest < Minitest::Test
     assert_equal expected, result
   end
 
-  def test_encrypt_rotates_when_small_offset
+  def test_encrypt_rotates_when_large_offset
     encryptor = Encrypt.new
     expected  = 'y'
     character = 'a'
@@ -124,42 +124,13 @@ class EncryptTest < Minitest::Test
     encryptor = Encrypt.new
     date      = Date.new(2015, 1, 1)
     key       = 41521
-    message = 'aaaa aaaa'
-    expected  = 'frp0 rp0f'
+    message = 'aaaa!aaaa'
+    expected  = 'frp0!rp0f'
 
     result = encryptor.encrypt date, key, message
 
 
     assert_equal expected, result
   end
-  #don't know how to test this way im doing it gives false positives
-  # def test_encrypt_date_key_defaults_to_today
-  #   encryptor = Encrypt.new
-  #   date      = Date.today
-  #
-  #   encryptor.encrypt date
-  #   expected = encryptor.date_offsets
-  #
-  #   encryptor.encrypt
-  #   result = encryptor.date_offsets
-  #
-  #   assert_equal expected, result
-  # end
-  #
-
-  #   def test_encrypt_key_defaults_to_41521
-  #     encryptor = Encrypt.new
-  #     date      = Date.today
-  #     key = 41521
-  #
-  #     encryptor.encrypt date, key
-  #     expected = encryptor.key_offsets
-  # puts "******expected before #{expected} ***********"
-  #     encryptor.encrypt
-  # puts "******expected after #{expected} ***********"
-  #     # require 'pry'; binding.pry
-  #     result = encryptor.key_offsets
-  #     assert_equal expected, result
-  #   end
 
 end

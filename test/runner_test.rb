@@ -14,7 +14,7 @@ class RunnerTest < Minitest::Test
     input_file << 'a'
     input_file.close
 
-    runner = Runner.new message_file, output_file, date, key
+    runner = Runner.new message_file, output_file, key, date
 
     result = runner.read_message message_file
     assert_equal 'a', result.strip
@@ -84,7 +84,7 @@ class RunnerTest < Minitest::Test
     result = output_file.readlines[0]
     output_file.close
 
-    assert_equal 'f p0fr', result
+    assert_equal 'fop0fr', result
   end
 
   def test_runner_returns_what_it_did
@@ -104,5 +104,49 @@ class RunnerTest < Minitest::Test
     result = runner.confirmation_message
 
     assert_equal expected, result
+  end
+
+  def test_runner_decrypts_one_character_message
+    # skip
+    message_file = 'message.txt'
+    output_file = 'output.txt'
+    date = Date.new(2015, 1, 1)
+    key = 41521
+
+    input_file = File.open message_file, 'w+'
+    input_file << 'f'
+    input_file.close
+
+    runner = Runner.new message_file, output_file, key, date
+    runner.decrypt
+
+    output_file = File.open output_file, 'r'
+
+    result = output_file.readlines[0]
+    output_file.close
+
+    assert_equal 'a', result
+  end
+
+  def test_runner_encrypts_multi_character_message
+    # skip
+    message_file = 'message.txt'
+    output_file = 'output.txt'
+    date = Date.new(2015, 1, 1)
+    key = 41521
+
+    input_file = File.open message_file, 'w+'
+    input_file.write 'fop0fr'
+    input_file.close
+
+    runner = Runner.new message_file, output_file, key, date
+    runner.decrypt
+
+    output_file = File.open output_file, 'r'
+
+    result = output_file.readlines[0]
+    output_file.close
+
+    assert_equal 'a aaaa', result
   end
 end
