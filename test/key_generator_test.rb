@@ -17,7 +17,7 @@ class KeyGeneratorTest < Minitest::Test
     expected  = 5
 
     result = key_generator.key
- puts key_generator.key
-    assert_equal expected, result.to_s.length
+
+    assert_equal expected, result.to_s.rjust(5,'0').length
   end
 end
