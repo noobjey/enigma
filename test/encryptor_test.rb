@@ -7,7 +7,7 @@ class EncryptorTest < Minitest::Test
   def test_encrypt_converts_date_to_ddmmyy
     encryptor = Encryptor.new
     today     = Date.today
-    expected  = today.strftime("%d%m%y")
+    expected  = today.strftime("%d%m%Y")
 
     result = encryptor.date_to today
 
@@ -38,7 +38,7 @@ class EncryptorTest < Minitest::Test
     encryptor = Encryptor.new
     date      = Date.new(2015, 1, 1)
 
-    expected = { a: 3, b: 2, c: 2, d: 5 }
+    expected = { a: 0, b: 2, c: 2, d: 5 }
 
     encryptor.encrypt date
     result = encryptor.date_offsets
@@ -62,7 +62,7 @@ class EncryptorTest < Minitest::Test
     encryptor = Encryptor.new
     date      = Date.new(2015, 1, 1)
     key       = 41521
-    expected  = { a: 44, b: 17, c: 54, d: 26 }
+    expected  = { a: 41, b: 17, c: 54, d: 26 }
 
     encryptor.encrypt date, key
     result = encryptor.total_offsets
@@ -99,7 +99,7 @@ class EncryptorTest < Minitest::Test
     date      = Date.new(2015, 1, 1)
     key       = 41521
     message = 'aaaa'
-    expected  = 'frp0'
+    expected  = 'crp0'
 
     result = encryptor.encrypt date, key, message
 
@@ -112,7 +112,7 @@ class EncryptorTest < Minitest::Test
     date      = Date.new(2015, 1, 1)
     key       = 41521
     message = 'aaaaaaaaa'
-    expected  = 'frp0frp0f'
+    expected  = 'crp0crp0c'
 
     result = encryptor.encrypt date, key, message
 
@@ -125,7 +125,7 @@ class EncryptorTest < Minitest::Test
     date      = Date.new(2015, 1, 1)
     key       = 41521
     message = 'aaaa!aaaa'
-    expected  = 'frp0!rp0f'
+    expected  = 'crp0!rp0c'
 
     result = encryptor.encrypt date, key, message
 

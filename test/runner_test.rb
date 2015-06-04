@@ -39,7 +39,7 @@ class RunnerTest < Minitest::Test
 
     output = File.open output_file, 'r'
 
-    assert_equal 'f', output.readchar
+    assert_equal 'c', output.readchar
     output.close
   end
 
@@ -79,7 +79,7 @@ class RunnerTest < Minitest::Test
     result = output_file.readlines[0]
     output_file.close
 
-    assert_equal 'f', result
+    assert_equal 'c', result
   end
 
   def test_runner_encrypts_multi_character_message
@@ -101,7 +101,7 @@ class RunnerTest < Minitest::Test
     result = output_file.readlines[0]
     output_file.close
 
-    assert_equal 'fop0fr', result
+    assert_equal 'cop0cr', result
   end
 
   def test_runner_returns_what_it_did_for_decrypt
@@ -163,7 +163,7 @@ class RunnerTest < Minitest::Test
     result = output_file.readlines[0]
     output_file.close
 
-    assert_equal 'a', result
+    assert_equal 'd', result
   end
 
   def test_runner_decrypts_multi_character_message
@@ -185,6 +185,6 @@ class RunnerTest < Minitest::Test
     result = output_file.readlines[0]
     output_file.close
 
-    assert_equal 'a aaaa', result
+    assert_equal 'd aada', result
   end
 end

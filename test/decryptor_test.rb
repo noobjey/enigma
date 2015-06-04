@@ -7,7 +7,7 @@ class DecryptorTest < Minitest::Test
   def test_decrypt_converts_date_to_ddmmyy
     decryptor = Decryptor.new
     today     = Date.today
-    expected  = today.strftime("%d%m%y")
+    expected  = today.strftime("%d%m%Y")
 
     result = decryptor.date_to today
 
@@ -38,7 +38,7 @@ class DecryptorTest < Minitest::Test
     decryptor = Decryptor.new
     date      = Date.new(2015, 1, 1)
 
-    expected = { a: 3, b: 2, c: 2, d: 5 }
+    expected = { a: 0, b: 2, c: 2, d: 5 }
 
     decryptor.decrypt date
     result = decryptor.date_offsets
@@ -62,7 +62,7 @@ class DecryptorTest < Minitest::Test
     decryptor = Decryptor.new
     date      = Date.new(2015, 1, 1)
     key       = 41521
-    expected  = { a: 44, b: 17, c: 54, d: 26 }
+    expected  = { a: 41, b: 17, c: 54, d: 26 }
 
     decryptor.decrypt date, key
     result = decryptor.total_offsets
@@ -98,7 +98,7 @@ class DecryptorTest < Minitest::Test
     date      = Date.new(2015, 1, 1)
     key       = 41521
     message = 'frp0'
-    expected  = 'aaaa'
+    expected  = 'daaa'
 
     result = decryptor.decrypt date, key, message
 
@@ -111,7 +111,7 @@ class DecryptorTest < Minitest::Test
     date      = Date.new(2015, 1, 1)
     key       = 41521
     message  = 'frp0frp0f'
-    expected = 'aaaaaaaaa'
+    expected = 'daaadaaad'
 
     result = decryptor.decrypt date, key, message
 
@@ -124,7 +124,7 @@ class DecryptorTest < Minitest::Test
     date      = Date.new(2015, 1, 1)
     key       = 41521
     message  = 'frp0!rp0f'
-    expected = 'aaaa!aaaa'
+    expected = 'daaa!aaad'
 
     result = decryptor.decrypt date, key, message
 
