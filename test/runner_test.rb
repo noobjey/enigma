@@ -1,10 +1,12 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/runner'
+require './lib/key_generator'
 
 class RunnerTest < Minitest::Test
 
   def test_runner_reads_input
+    # skip
     message_file = 'message.txt'
     output_file = 'encrypted.txt'
     date = Date.new(2015, 1, 1)
@@ -32,7 +34,7 @@ class RunnerTest < Minitest::Test
     input_file << 'a'
     input_file.close
 
-    runner = Runner.new message_file, output_file, key, date
+    runner = Runner.new message_file, output_file, date, key
     runner.encrypt
 
     output = File.open output_file, 'r'
@@ -41,7 +43,22 @@ class RunnerTest < Minitest::Test
     output.close
   end
 
+  def test_runner_encrypt_defaults_to_random_key
+    # skip
+    message_file = 'message.txt'
+    output_file = 'encrypted.txt'
+    date = Date.new(2015, 1, 1)
 
+    runner = Runner.new message_file, output_file, date
+    runner.encrypt
+    first_key = runner.key
+
+    runner2 = Runner.new message_file, output_file, date
+    runner2.encrypt
+    second_key = runner2.key
+# require 'pry'; binding.pry
+    refute first_key.eql? second_key
+  end
 
   def test_runner_encrypts_one_character_message
     # skip
@@ -54,7 +71,7 @@ class RunnerTest < Minitest::Test
     input_file << 'a'
     input_file.close
 
-    runner = Runner.new message_file, output_file, key, date
+    runner = Runner.new message_file, output_file, date, key
     runner.encrypt
 
     output_file = File.open output_file, 'r'
@@ -76,7 +93,7 @@ class RunnerTest < Minitest::Test
     input_file.write 'a aaaa'
     input_file.close
 
-    runner = Runner.new message_file, output_file, key, date
+    runner = Runner.new message_file, output_file, date, key
     runner.encrypt
 
     output_file = File.open output_file, 'r'
@@ -88,6 +105,7 @@ class RunnerTest < Minitest::Test
   end
 
   def test_runner_returns_what_it_did_for_decrypt
+    # skip
     message_file = 'message.txt'
     output_file = 'decrypted.txt'
     date = '01012015'
@@ -98,7 +116,7 @@ class RunnerTest < Minitest::Test
     input_file.write 'a aaaa'
     input_file.close
 
-    runner = Runner.new message_file, output_file, key, date
+    runner = Runner.new message_file, output_file, date, key
     runner.decrypt
 
     result = runner.confirmation_message
@@ -107,6 +125,7 @@ class RunnerTest < Minitest::Test
   end
 
   def test_runner_returns_what_it_did_for_encrypt
+    # skip
     message_file = 'message.txt'
     output_file = 'encrypted.txt'
     date = Date.new(2015, 1, 1)
@@ -117,7 +136,7 @@ class RunnerTest < Minitest::Test
     input_file.write 'a aaaa'
     input_file.close
 
-    runner = Runner.new message_file, output_file, key, date
+    runner = Runner.new message_file, output_file, date, key
     runner.decrypt
 
     result = runner.confirmation_message
@@ -136,7 +155,7 @@ class RunnerTest < Minitest::Test
     input_file << 'f'
     input_file.close
 
-    runner = Runner.new message_file, output_file, key, date
+    runner = Runner.new message_file, output_file, date, key
     runner.decrypt
 
     output_file = File.open output_file, 'r'
@@ -147,7 +166,7 @@ class RunnerTest < Minitest::Test
     assert_equal 'a', result
   end
 
-  def test_runner_encrypts_multi_character_message
+  def test_runner_decrypts_multi_character_message
     # skip
     message_file = 'message.txt'
     output_file = 'decrypted.txt'
@@ -158,7 +177,7 @@ class RunnerTest < Minitest::Test
     input_file.write 'fop0fr'
     input_file.close
 
-    runner = Runner.new message_file, output_file, key, date
+    runner = Runner.new message_file, output_file, date, key
     runner.decrypt
 
     output_file = File.open output_file, 'r'

@@ -1,11 +1,12 @@
 require_relative 'encryptor'
 require_relative 'decryptor'
 require 'date'
+require_relative 'key_generator'
 
 class Runner
-  attr_reader :date
+  attr_reader :date, :key
 
-  def initialize input_filename = '', output_filename = '', key = 41521, date = Date.today
+  def initialize input_filename = '', output_filename = '', date = Date.today, key = KeyGenerator.new.key
     @input_filename = input_filename
     @output_filename = output_filename
     @date = date
